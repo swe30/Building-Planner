@@ -1,0 +1,37 @@
+from flask import request, jsonify
+
+# ...
+
+# API endpoint for creating a new drawing
+@app.route('/drawings', methods=['POST'])
+def create_drawing():
+    try:
+        # Get JSON data from the request body
+        data = request.json
+
+        # Validate required fields
+        required_fields = ['shape_type', 'coordinates']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({'error': f'Missing required field: {field}'}), 400
+
+        # Create a new Drawing instance
+        new_drawing = Drawing(
+            shape_type=data['shape_type'],
+            coordinates=data['coordinates'],
+            dimensions=data.get('dimensions', ''),
+            annotations=data.get('annotations', '')
+        )
+
+        # Add the new drawing to the database
+        db.session.add(new_drawing)
+        db.session.commit()
+
+        # Return a success message
+        return jsonify({'message': 'Drawing created successfully'}), 201
+
+    except Exception as e:
+        # Handle exceptions, log errors, etc.
+        return jsonify({'error': str(e)}), 500
+
+# ...
