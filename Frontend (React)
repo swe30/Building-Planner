@@ -1,0 +1,23 @@
+// App.js
+import React, { useState } from 'react';
+import DrawingArea from './components/DrawingArea';
+import Toolbar from './components/Toolbar';
+
+function App() {
+  const [selectedTool, setSelectedTool] = useState('draw'); // 'draw', 'select', 'view'
+  const [annotationsVisible, setAnnotationsVisible] = useState(true);
+
+  return (
+    <div>
+      <Toolbar
+        selectedTool={selectedTool}
+        setSelectedTool={setSelectedTool}
+        annotationsVisible={annotationsVisible}
+        setAnnotationsVisible={setAnnotationsVisible}
+      />
+      <DrawingArea selectedTool={selectedTool} annotationsVisible={annotationsVisible} />
+    </div>
+  );
+}
+
+export default App;
